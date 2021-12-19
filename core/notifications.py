@@ -4,9 +4,7 @@ import threading
 
 
 def sendNotificationToSocketId(socketId, *args, **kw):
-    # def sendNotification(*args, **kw):
     API.emit(*args, **kw, to=socketId)
-    # threading.Thread(target=sendNotification, args=args, kwargs=kw).start()
 
 
 def sendNotificationToSocketIds(socketIds, *args, **kw):

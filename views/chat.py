@@ -8,6 +8,7 @@ import core.session
 import core.notifications
 import core.chat
 import core.db2json
+import core.filter
 
 
 @API.on("new-chat-request")
@@ -46,6 +47,10 @@ def sendMessage(sessionId, chatId, message):
     if chat:
         if sessionId not in chat.sessionIds:
             return returnMessage(-1, message='You are not a member of this conversation.')
+
+        if not core.filter.messageValidation(sessionId, chatId, message, request.sid):
+            return returnMessage(1, message='The message has been filtered.')
+
         # Can send the message
         conversation = core.chat.addConversation(sessionId, chatId, message)
         if conversation:
