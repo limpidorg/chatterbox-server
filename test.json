@@ -1,0 +1,28 @@
+{
+    "insults": {
+        "title": "Hello Bonsai#8521!",
+        "description": "{insert insult later}, and any other insults are not allowed 🤐",
+        "advices": [
+            {
+                "title": "Use fun alternatives instead! Or doodle your feelings out! 😉",
+                "description": "Please be polite to others and to yourself <3."
+            }
+        ]
+    },
+
+    "extremeBehaviour": {
+        "url": "https://checkpointorg.com/global/",
+        "title": "Hello {username}!",
+        "description": "This is a safe and comfortable space for all. If you're upset or feeling down, please refer to the resources below!",
+        "advices": [
+            {
+                "title": "HELP IS ALWAYS AVAILABLE. WE ARE ALWAYS HERE FOR YOU <3",
+                "description": "https://www.opencounseling.com/suicide-hotlines"
+            },
+            {
+                "title": "S*icide suggests ill intent or self-harm",
+                "description": "Always be kind and take care of yourself. Be mindful of others!"
+            }
+        ]
+    }
+}
