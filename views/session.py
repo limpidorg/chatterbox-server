@@ -57,6 +57,12 @@ def destroySession(sessionId):
             core.match.removeFromQueue(sessionId)
             core.notifications.sendNotificationToSocketIds(
                 socketIds, 'session-destroyed')
+            chat = core.chat.getChatBySessionId(sessionId)
+            if chat:
+                core.chat.deleteChat(chat.chatId)
+                for _sessionId in chat.sessionIds:
+                    core.notifications.sendNotificationToSession(
+                        _sessionId, 'chat-destroyed', returnMessage(0, sessionId=sessionId, chatId=chatId))
             return returnMessage(0, message='Session destroyed')
     return returnMessage(-1, message='Session could not be destroyed')
 
