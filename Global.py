@@ -4,5 +4,6 @@ from flask_cors import CORS
 import secrets
 
 app = Flask(__name__)
-CORS(app)
+if __name__ == "__main__":
+    CORS(app)
 API = SocketIO(app, cors_allowed_origins='*', async_mode='gevent')
