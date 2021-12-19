@@ -36,7 +36,7 @@ def resumeSession(sessionId):  # Client init - using previous identity
     print(
         f'Client init with sessionId: {sessionId}, attempting to resume session')
     session = core.session.getSession(sessionId)
-    if session:
+    if sessionId and session:
         if request.sid not in session.socketIds:
             session.socketIds.append(request.sid)
         session.save()
@@ -72,7 +72,8 @@ def destroySession(sessionId):
 @parseData
 def newSession(discordId=None, name='Anonymous'):  # Client init - get a new identity
     print('Creating a new session')
-    sessionId = core.session.newSession(request.sid, discordId=discordId, name=name)
+    sessionId = core.session.newSession(
+        request.sid, discordId=discordId, name=name)
     print(f'New sessionId: {sessionId}')
     return returnMessage(0, sessionId=sessionId, sessionInfo=core.db2json.Session(core.session.getSession(sessionId)))
 
