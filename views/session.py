@@ -59,7 +59,8 @@ def destroySession(sessionId):
                 socketIds, 'session-destroyed')
             chat = core.chat.getChatBySessionId(sessionId)
             if chat:
-                core.chat.deleteChat(chat.chatId)
+                chatId = chat.chatId
+                core.chat.deleteChat(chatId)
                 for _sessionId in chat.sessionIds:
                     core.notifications.sendNotificationToSession(
                         _sessionId, 'chat-destroyed', returnMessage(0, sessionId=sessionId, chatId=chatId))

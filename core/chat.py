@@ -16,7 +16,7 @@ def getChat(chatId):
 
 def getChatBySessionId(sessionId):
     try:
-        chat = Chat.objects(sessionId=sessionId).first()
+        chat = Chat.objects(sessionIds=sessionId).first()
         return chat
     except:
         return None
