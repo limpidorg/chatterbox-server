@@ -6,7 +6,7 @@ class Session(Document):  # Basically userId
     discordId = StringField(defalt=None)
     created = FloatField(required=True)
     chatId = StringField(default=None)
-    nickName = StringField(default='Anonymous')
+    name = StringField(default='Anonymous')
     socketIds = ListField(StringField(), default=[])
 
 

@@ -4,6 +4,7 @@ def Session(Session):
         'sessionId': Session.sessionId,
         'created': Session.created,
         'chatId': Session.chatId,
+        'name': Session.name,
     }
 
 def Conversation(Conversation):

@@ -70,9 +70,9 @@ def destroySession(sessionId):
 
 @API.on('new-session')
 @parseData
-def newSession(discordId=None):  # Client init - get a new identity
+def newSession(discordId=None, name='Anonymous'):  # Client init - get a new identity
     print('Creating a new session')
-    sessionId = core.session.newSession(request.sid, discordId=discordId)
+    sessionId = core.session.newSession(request.sid, discordId=discordId, name=name)
     print(f'New sessionId: {sessionId}')
     return returnMessage(0, sessionId=sessionId, sessionInfo=core.db2json.Session(core.session.getSession(sessionId)))
 

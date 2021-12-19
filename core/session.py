@@ -3,10 +3,10 @@ import secrets
 import time
 
 
-def newSession(socketId, discordId=None):
+def newSession(socketId, discordId=None, name=None):
     sessionId = secrets.token_hex(16)
     session = Session(socketIds=[socketId], sessionId=sessionId,
-                      discordId=discordId, created=time.time())
+                      discordId=discordId, created=time.time(), name=name)
     try:
         session.save()
         return sessionId
