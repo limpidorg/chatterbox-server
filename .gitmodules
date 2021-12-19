@@ -1,0 +1,3 @@
+[submodule "integrations/chatterbot"]
+	path = integrations/chatterbot
+	url = https://github.com/the-statics/chatterbot

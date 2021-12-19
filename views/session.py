@@ -7,6 +7,7 @@ import core.chat
 import core.db2json
 from flask import request
 import core.match
+import integrations.discordbot
 
 ACTIVE_CLIENTS = []
 
@@ -71,5 +72,6 @@ def newSession(discordId=None):  # Client init - get a new identity
 @API.on('discord-verification')
 @parseData
 def discordVerification(discordId):
-    print(f'Discord verification for {discordId}')
+    if integrations.discordbot.discordVerification(discordId):
+        return returnMessage(0, message='Discord verification successful')
     return returnMessage(-1)

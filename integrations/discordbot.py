@@ -1,0 +1,4 @@
+
+
+def discordVerification(discordId):
+    pass
