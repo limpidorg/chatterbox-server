@@ -51,8 +51,8 @@ def resumeSession(sessionId):  # Client init - using previous identity
 @parseData
 def destroySession(sessionId):
     session = core.session.getSession(sessionId)
-    socketIds = session.socketIds
     if session:
+        socketIds = session.socketIds
         if core.session.deleteSession(sessionId):
             core.match.removeFromQueue(sessionId)
             core.notifications.sendNotificationToSocketIds(
