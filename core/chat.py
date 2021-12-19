@@ -30,8 +30,20 @@ def newChat(sessionIds):
     except:
         return None
 
+def deleteChat(chatId):
+    chat = getChat(chatId)
+    if chat:
+        for sessionId in chat.sessionIds:
+            session = core.session.getSession(sessionId)
+            if session:
+                session.chatId = None
+                session.save()
+        chat.delete()
+        return True
+    return False
 
 def initiateChat(chatId):
+    'Initiates a chat after matching'
     chat = getChat(chatId)
     if chat:
         for sessionId in chat.sessionIds:
@@ -43,3 +55,6 @@ def initiateChat(chatId):
                 sessionId, 'new-chat-found', returnMessage(0, chatId=chatId))
         return True
     return False
+
+def joinChat(sessionId, chatId):
+    pass    

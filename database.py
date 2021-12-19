@@ -1,4 +1,4 @@
-from mongoengine import connect, Document, StringField, FloatField, BooleanField, ListField
+from mongoengine import connect, Document, StringField, FloatField, BooleanField, ListField, EmbeddedDocument, EmbeddedDocumentListField
 
 
 class Session(Document):  # Basically userId
@@ -9,10 +9,18 @@ class Session(Document):  # Basically userId
     nickName = StringField(default='Anonymous')
     socketIds = ListField(StringField(), default=[])
 
+
+class Conversation(EmbeddedDocument):
+    sessionId = StringField(required=True)
+    message = StringField(required=True)
+    timestamp = FloatField(required=True)
+    conversationId = StringField(required=True)
+
+
 class Chat(Document):
     chatId = StringField(required=True, unique=True)
-    # chatKey = StringField(required=True)
     sessionIds = ListField(StringField(), required=True)
+    conversations = EmbeddedDocumentListField(Conversation, default=[])
 
 
 connect('chatterbox')

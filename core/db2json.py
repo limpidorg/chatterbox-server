@@ -5,3 +5,11 @@ def Session(Session):
         'created': Session.created,
         'chatId': Session.chatId,
     }
+
+def Conversation(Conversation):
+    return {
+        'sessionId': Conversation.sessionId,
+        'message': Conversation.message,
+        'timestamp': Conversation.timestamp,
+        'messageId': Conversation.messageId,
+    }
