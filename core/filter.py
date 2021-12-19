@@ -40,8 +40,15 @@ def classifyMessage(message):
     return True, "", ""
 
 
+def processKeyWord(keyword):
+    if len(keyword) >= 3:
+        keyword[1] = '*'
+    return keyword
+
 def messageValidation(sessionId, chatId, message, socketId):
     allowed, type, keyword = classifyMessage(message)
+    keyword = processKeyWord(keyword)
+
     if not allowed:
         # Sends warning message to the client
         session = core.session.getSession(sessionId)
@@ -62,7 +69,7 @@ def messageValidation(sessionId, chatId, message, socketId):
                 "show-alert",
                 returnMessage(
                     0,
-                    message=f"**{keyword}**, and any other insults are not allowed 🤐",
+                    message=f"{keyword}, and any other insults are not allowed 🤐",
                     title="We can't send this message",
                     actions=[
                         {"type": "cancel", "title": "OK"},
@@ -98,11 +105,11 @@ def messageValidation(sessionId, chatId, message, socketId):
                 "show-alert",
                 returnMessage(
                     0,
-                    title="There's always hope ❤️.",
-                    message="You seems to be in a bad mood. Remember, you're not alone.",
+                    title="There is always hope, even in the most difficult times 💙",
+                    message="This is a safe and comfortable space for all. If you're upset or feeling down, please refer to the resources below!",
                     actions=[
-                        {"type": "destructive", "title": "I need some help.",
-                            "link": "https://reachout.com/urgent-help"},
+                        {"type": "destructive", "title": "I need some help",
+                            "link": "https://checkpointorg.com/global/"},
                         {"type": "cancel", "title": "I'm OK"},
                     ],
                 ),
