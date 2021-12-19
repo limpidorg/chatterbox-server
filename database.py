@@ -14,7 +14,7 @@ class Conversation(EmbeddedDocument):
     sessionId = StringField(required=True)
     message = StringField(required=True)
     timestamp = FloatField(required=True)
-    conversationId = StringField(required=True)
+    messageId = StringField(required=True)
 
 
 class Chat(Document):

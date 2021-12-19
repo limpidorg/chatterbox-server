@@ -1,10 +1,10 @@
-from database import Session, Chat
+from database import Session, Chat, Conversation
 import secrets
 import core.notifications
 import core.session
 from integrations.discordbot import getDiscordId, sendMessage
 from utils import returnMessage
-
+import time
 
 def getChat(chatId):
     try:
@@ -57,7 +57,8 @@ def initiateChat(chatId):
 
                 session.chatId = chatId
                 session.save()
-            core.notifications.sendNotificationToSession(sessionId, "new-chat-found", returnMessage(0, chatId=chatId))
+            core.notifications.sendNotificationToSession(
+                sessionId, "new-chat-found", returnMessage(0, chatId=chatId))
 
             if discord_internal_id != None:
                 message = {
@@ -69,5 +70,12 @@ def initiateChat(chatId):
     return False
 
 
-def joinChat(sessionId, chatId):
-    pass
+def addConversation(sessionId, chatId, message):
+    chat = getChat(chatId)
+    if chat:
+        conversation = Conversation(messageId=secrets.token_hex(
+            16), sessionId=sessionId, message=message, timestamp=time.time())
+        chat.conversations.append(conversation)
+        chat.save()
+        return conversation
+    return None

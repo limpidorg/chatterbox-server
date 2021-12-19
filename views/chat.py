@@ -38,6 +38,27 @@ def joinChat(sessionId, chatId):
         return returnMessage(-1, message='Chat not found')
 
 
+@API.on('send-message')
+@parseData
+def sendMessage(sessionId, chatId, message):
+    print(f'Send message {message} to {chatId}')
+    chat = core.chat.getChat(chatId)
+    if chat:
+        if sessionId not in chat.sessionIds:
+            return returnMessage(-1, message='You are not a member of this conversation.')
+        # Can send the message
+        conversation = core.chat.addConversation(sessionId, chatId, message)
+        if conversation:
+            for sessionId in chat.sessionIds:
+                core.notifications.sendNotificationToSession(
+                    sessionId, 'new-message', returnMessage(0, sessionId=sessionId, chatId=chatId, message=core.db2json.Conversation(conversation)))
+            return returnMessage(0, message='Message sent')
+        else:
+            returnMessage(-1, message='Could not add message to chat')
+    else:
+        return returnMessage(-1, message='Chat not found')
+
+
 @API.on('leave-chat')
 @parseData
 def leaveChat(sessionId, chatId):
