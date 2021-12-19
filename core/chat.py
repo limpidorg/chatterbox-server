@@ -59,12 +59,12 @@ def initiateChat(chatId):
                 session.save()
             core.notifications.sendNotificationToSession(sessionId, "new-chat-found", returnMessage(0, chatId=chatId))
 
-            message = {
-                "title": "Hurry up",
-                "description": "We just found your new chatling! It could be the beginning of a great adventure 💙",
-            }
-
-            sendMessage(discord_internal_id, message)
+            if discord_internal_id != None:
+                message = {
+                    "title": "Hurry up",
+                    "description": "We just found your new chatling! It could be the beginning of a great adventure 💙",
+                }
+                sendMessage(discord_internal_id, message)
         return True
     return False
 
