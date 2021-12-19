@@ -11,7 +11,7 @@ class Session(Document):  # Basically userId
 
 class Chat(Document):
     chatId = StringField(required=True, unique=True)
-    chatKey = StringField(required=True)
+    # chatKey = StringField(required=True)
     sessionIds = ListField(StringField(), required=True)
 
 

@@ -15,3 +15,8 @@ def sendNotificationToSocketIds(socketIds, *args, **kw):
         for socketId in socketIds:
             API.emit(*args, **kw, to=socketId)
     threading.Thread(target=sendNotification, args=args, kwargs=kw).start()
+
+def sendNotificationToSession(sessionId, *args, **kw):
+    session = core.session.getSession(sessionId)
+    if session:
+        sendNotificationToSocketIds(session.socketIds, *args, **kw)

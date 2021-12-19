@@ -6,6 +6,7 @@ import core.session
 import core.chat
 import core.db2json
 from flask import request
+import core.match
 
 ACTIVE_CLIENTS = []
 
@@ -51,6 +52,7 @@ def destroySession(sessionId):
     socketIds = session.socketIds
     if session:
         if core.session.deleteSession(sessionId):
+            core.match.removeFromQueue(sessionId)
             core.notifications.sendNotificationToSocketIds(
                 socketIds, 'session-destroyed')
             return returnMessage(0, message='Session destroyed')
