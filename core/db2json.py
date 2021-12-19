@@ -3,5 +3,5 @@ def Session(Session):
     return {
         'sessionId': Session.sessionId,
         'created': Session.created,
-        'activeChats': Session.activeChats,
+        'chatId': Session.chatId,
     }

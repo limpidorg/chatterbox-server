@@ -2,33 +2,55 @@ from Global import API
 from utils import returnMessage, parseData
 import secrets
 import core.session
+import core.chat
 import core.db2json
+from flask import request
+
+ACTIVE_CLIENTS = []
 
 
 @API.on('connect')
 def connect():
     print('A new client is now connected.')
+    ACTIVE_CLIENTS.append(request.sid)
 
 
-@API.on('session')
+@API.on('disconnect')
+def disconnect():
+    print('A client has disconnected.')
+    ACTIVE_CLIENTS.remove(request.sid)
+
+
+@API.on('resume-session')
 @parseData
-def connect(sessionId, discordId=None):  # Client init - get a new identity
-    needSession = True
-    if sessionId:
-        print(
-            f'Client init with sessionId: {sessionId}, attempting to resume session')
-        session = core.session.getSession(sessionId)
-        if session:
-            print(f'Session {sessionId} resumed')
-            needSession = False
-        else:
-            print(f'Session {sessionId} not found')
+def resumeSession(sessionId):  # Client init - using previous identity
+    print(
+        f'Client init with sessionId: {sessionId}, attempting to resume session')
+    session = core.session.getSession(sessionId)
+    if session:
+        print(f'Session {sessionId} resumed')
+        session.socketId = request.sid
+        session.save()
+        return returnMessage(0, sessionId=sessionId, sessionInfo=core.db2json.Session(core.session.getSession(sessionId)))
+    else:
+        print(f'Session {sessionId} not found')
+        return returnMessage(-1, message='Session not found')
 
-    if needSession:
-        print('Creating a new session')
-        sessionId = core.session.newSession(discordId=discordId)
-        print(f'New sessionId: {sessionId}')
 
+@API.on('destroy-session')
+@parseData
+def destroySession(sessionId):
+    if core.session.deleteSession(sessionId):
+        return returnMessage(0, message='Session destroyed')
+    return returnMessaFge(-1, message='Session could not be destroyed')
+
+
+@API.on('new-session')
+@parseData
+def newSession(discordId=None):  # Client init - get a new identity
+    print('Creating a new session')
+    sessionId = core.session.newSession(request.sid, discordId=discordId)
+    print(f'New sessionId: {sessionId}')
     return returnMessage(0, sessionId=sessionId, sessionInfo=core.db2json.Session(core.session.getSession(sessionId)))
 
 
@@ -36,4 +58,4 @@ def connect(sessionId, discordId=None):  # Client init - get a new identity
 @parseData
 def discordVerification(discordId):
     print(f'Discord verification for {discordId}')
-    return returnMessage(0, hasJoinedDiscord=True)
+    return returnMessage(-1)
