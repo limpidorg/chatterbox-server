@@ -7,7 +7,7 @@ class Session(Document):  # Basically userId
     created = FloatField(required=True)
     chatId = StringField(default=None)
     nickName = StringField(default='Anonymous')
-    socketId = StringField(default=None)
+    socketIds = ListField(StringField(), default=[])
 
 class Chat(Document):
     chatId = StringField(required=True, unique=True)

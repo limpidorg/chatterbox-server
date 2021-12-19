@@ -5,7 +5,7 @@ import time
 
 def newSession(socketId, discordId=None):
     sessionId = secrets.token_hex(16)
-    session = Session(socketId=socketId, sessionId=sessionId,
+    session = Session(socketIds=[socketId], sessionId=sessionId,
                       discordId=discordId, created=time.time())
     try:
         session.save()
@@ -35,7 +35,7 @@ def deleteSession(sessionId):
 
 def getSessionBySocketId(socketId):
     try:
-        session = Session.objects(socketId=socketId).first()
+        session = Session.objects(socketIds=socketId).first()
         return session
     except:
         return None

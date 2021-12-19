@@ -4,6 +4,7 @@ from utils import returnMessage, parseData
 import threading
 import time
 import core.session
+import core.notifications
 
 
 @API.on("new-chat-request")
@@ -15,8 +16,11 @@ def newChatRequest(sessionId):
 
 
 def matching(sessionId):
-    time.sleep(5)
-    socketId = core.session.getSession(sessionId).socketId
-    print('Matched')
-    API.emit("new-chat-found", returnMessage(0,
-             chatId='sampleChatId'), to=socketId)
+    time.sleep(1)
+
+    session = core.session.getSession(sessionId)
+    if session:
+        socketIds = session.socketIds
+        print('Matched')
+        core.notifications.sendNotificationToSocketIds(socketIds, "new-chat-found", returnMessage(0,
+                                                                                                  chatId='sampleChatId'))
