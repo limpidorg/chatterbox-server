@@ -24,7 +24,8 @@ def disconnect():
     ACTIVE_CLIENTS.remove(request.sid)
     session = core.session.getSessionBySocketId(request.sid)
     if session:
-        print('removed socketId', request.sid, 'from session', session.sessionId)
+        print('removed socketId', request.sid,
+              'from session', session.sessionId)
         session.socketIds.remove(request.sid)
         session.save()
 
@@ -72,6 +73,12 @@ def newSession(discordId=None):  # Client init - get a new identity
 @API.on('discord-verification')
 @parseData
 def discordVerification(discordId):
-    if integrations.discordbot.discordVerification(discordId):
+    try:
+        joined = integrations.discordbot.discordVerification(discordId)
+    except Exception as e:
+        print(e)
+        return returnMessage(-1, message='Timed out.')
+
+    if joined:
         return returnMessage(0, message='Discord verification successful')
-    return returnMessage(-1)
+    return returnMessage(-1, message='Not joined.')
