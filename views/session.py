@@ -42,7 +42,7 @@ def resumeSession(sessionId):  # Client init - using previous identity
 def destroySession(sessionId):
     if core.session.deleteSession(sessionId):
         return returnMessage(0, message='Session destroyed')
-    return returnMessaFge(-1, message='Session could not be destroyed')
+    return returnMessage(-1, message='Session could not be destroyed')
 
 
 @API.on('new-session')

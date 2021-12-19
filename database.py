@@ -9,7 +9,6 @@ class Session(Document):  # Basically userId
     nickName = StringField(default='Anonymous')
     socketId = StringField(default=None)
 
-
 class Chat(Document):
     chatId = StringField(required=True, unique=True)
     chatKey = StringField(required=True)
