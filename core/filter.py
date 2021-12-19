@@ -42,8 +42,11 @@ def classifyMessage(message):
 
 def processKeyWord(keyword):
     if len(keyword) >= 3:
+        keyword = list(keyword)
         keyword[1] = '*'
+        keyword = ''.join(keyword)
     return keyword
+
 
 def messageValidation(sessionId, chatId, message, socketId):
     allowed, type, keyword = classifyMessage(message)
