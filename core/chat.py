@@ -110,7 +110,7 @@ def notifyOnline(sessionId):
             if discordId:
                 message = {
                     "title": "Wake up",
-                    "description": f"Your chatling is back online! You can continue the chat by [revisiting the website](https://https://chatterbox.yyjlincoln.app/chat/{chat.chatId}) on the same device 💙",
+                    "description": f"Your chatling is back online! You can continue the chat by [revisiting the website](https://chatterbox.yyjlincoln.app/chat/{chat.chatId}) on the same device 💙",
                 }
                 discord_internal_id = getDiscordInternalId(discordId)
                 if discord_internal_id:
