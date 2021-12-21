@@ -28,6 +28,10 @@ def disconnect():
               'from session', session.sessionId)
         session.socketIds.remove(request.sid)
         session.save()
+        if len(session.socketIds) == 0:
+            # Notify Online
+            print('notifyOffline', session.sessionId)
+            core.chat.notifyOffline(session.sessionId)
 
 
 @API.on('resume-session')

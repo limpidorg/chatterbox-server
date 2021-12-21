@@ -19,6 +19,17 @@ def newChatRequest(sessionId):
     return returnMessage(0, message='New chat request received')
 
 
+@API.on("cancel-chat-request")
+@parseData
+def newChatRequest(sessionId):
+    print(f'Cancel chat request from {sessionId} (matching)')
+    core.match.removeFromQueue(sessionId)
+    # Notify the cancellation
+    core.notifications.sendNotificationToSession(
+        sessionId, 'chat-request-cancelled', returnMessage(0, message='Chat request cancelled'))
+    return returnMessage(0, message='Cancellation received')
+
+
 @API.on('join-chat')
 @parseData
 def joinChat(sessionId, chatId):
@@ -34,6 +45,13 @@ def joinChat(sessionId, chatId):
             messages.append(core.db2json.Conversation(message))
         core.notifications.sendNotificationToSession(
             sessionId, 'chat-joined', returnMessage(0, sessionId=sessionId, chatId=chatId))
+        
+        session = core.session.getSession(sessionId)
+        if session:
+            if len(session.socketIds) == 1: # Just joined the chat 
+                print('notifyOnline', session.sessionId)
+                core.chat.notifyOnline(sessionId)
+
         return returnMessage(0, conversations=messages)
     else:
         return returnMessage(-1, message='Chat not found')
