@@ -15,7 +15,6 @@ MESSAGE_TYPES = {
         "pussy",
         "bastard",
         "cunt",
-        "damn",
         "bollocks",
         "bugger",
         "choad",
