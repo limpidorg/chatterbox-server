@@ -58,8 +58,7 @@ def initiateChat(chatId):
 
                 session.chatId = chatId
                 session.save()
-            core.notifications.sendNotificationToSession(
-                sessionId, "new-chat-found", returnMessage(0, chatId=chatId))
+            core.notifications.sendNotificationToSession(sessionId, "new-chat-found", returnMessage(0, chatId=chatId))
 
             if discord_internal_id != None:
                 message = {
@@ -84,18 +83,38 @@ def addConversation(sessionId, chatId, message):
 
 
 def notifyOnline(sessionId):
+    session = core.session.getSession(sessionId)
     chat = getChatBySessionId(sessionId)
     if chat:
         for _sessionId in chat.sessionIds:
             if _sessionId == sessionId:
                 continue
+
             core.notifications.sendNotificationToSession(
-                _sessionId, 'new-message', returnMessage(0, sessionId=sessionId, chatId=chat.chatId, message={
-                    'sessionId': sessionId,
-                    'message': '[Connected]',
-                    'timestamp': time.time(),
-                    'messageId': 'System::'+secrets.token_hex(16),
-                }))
+                _sessionId,
+                "new-message",
+                returnMessage(
+                    0,
+                    sessionId=sessionId,
+                    chatId=chat.chatId,
+                    message={
+                        "sessionId": sessionId,
+                        "message": "[Connected]",
+                        "timestamp": time.time(),
+                        "messageId": "System::" + secrets.token_hex(16),
+                    },
+                ),
+            )
+
+            message = {
+                "title": "Wake up",
+                "description": "Your chatling is back online! You can continue the chat by revisiting the website on the same device 💙",
+            }
+
+            discordId = session.discordId
+            discord_internal_id = getDiscordId(discordId)
+            if discord_internal_id:
+                sendMessage(discord_internal_id, message)
 
 
 def notifyOffline(sessionId):
@@ -105,9 +124,17 @@ def notifyOffline(sessionId):
             if _sessionId == sessionId:
                 continue
             core.notifications.sendNotificationToSession(
-                _sessionId, 'new-message', returnMessage(0, sessionId=sessionId, chatId=chat.chatId, message={
-                    'sessionId': sessionId,
-                    'message': '[Disconnected from the chat]',
-                    'timestamp': time.time(),
-                    'messageId': 'System::'+secrets.token_hex(16),
-                }))
+                _sessionId,
+                "new-message",
+                returnMessage(
+                    0,
+                    sessionId=sessionId,
+                    chatId=chat.chatId,
+                    message={
+                        "sessionId": sessionId,
+                        "message": "[Disconnected from the chat]",
+                        "timestamp": time.time(),
+                        "messageId": "System::" + secrets.token_hex(16),
+                    },
+                ),
+            )

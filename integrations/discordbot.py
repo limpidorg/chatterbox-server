@@ -39,29 +39,23 @@ class Promise(object):
 
 def hasJoinedDiscord(username):
     promise = Promise()
-    loop.call_soon_threadsafe(asyncio.ensure_future,
-                              bot.get_discord_user(username, promise))
+    loop.call_soon_threadsafe(asyncio.ensure_future, bot.get_discord_user(username, promise))
     promise.wait()
     return promise.has_joined_discord
 
 
 def getDiscordId(username):
     promise = Promise()
-    loop.call_soon_threadsafe(asyncio.ensure_future,
-                              bot.get_discord_user(username, promise))
+    loop.call_soon_threadsafe(asyncio.ensure_future, bot.get_discord_user(username, promise))
     promise.wait()
     return promise.discord_id
 
 
 def getDiscordUser(username):
     promise = Promise()
-    loop.call_soon_threadsafe(asyncio.ensure_future,
-                              bot.get_discord_user(username, promise))
+    loop.call_soon_threadsafe(asyncio.ensure_future, bot.get_discord_user(username, promise))
     promise.wait()
-    return {
-        'hasJoinedDiscord': promise.has_joined_discord,
-        'discordId': promise.discord_id
-    }
+    return {"hasJoinedDiscord": promise.has_joined_discord, "discordId": promise.discord_id}
 
 
 def sendMessage(id, message):

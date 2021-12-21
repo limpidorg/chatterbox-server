@@ -21,7 +21,7 @@ MESSAGE_TYPES = {
         "choad",
         "kys",
     ],
-    "extremeBehaviours": ["suicide",  "kill", "depression", "traumatised", "phobia", "panic", "murder", "rape"],
+    "extremeBehaviours": ["suicide", "kill", "depression", "traumatised", "phobia", "panic", "murder", "rape"],
 }
 
 
@@ -43,8 +43,8 @@ def classifyMessage(message):
 def processKeyWord(keyword):
     if len(keyword) >= 3:
         keyword = list(keyword)
-        keyword[1] = '*'
-        keyword = ''.join(keyword)
+        keyword[1] = "*"
+        keyword = "".join(keyword)
     return keyword
 
 
@@ -59,7 +59,7 @@ def messageValidation(sessionId, chatId, message, socketId):
         if type == "insults":
             message = {
                 "title": "Hello",
-                "description": f"**{keyword}**, and any other insults are not allowed 🤐",
+                "description": f"**{processKeyWord(keyword)}**, and any other insults are not allowed 🤐",
                 "subColumns": [
                     {
                         "title": "Use fun alternatives instead! Or doodle your feelings out! 😉",
@@ -72,7 +72,7 @@ def messageValidation(sessionId, chatId, message, socketId):
                 "show-alert",
                 returnMessage(
                     0,
-                    message=f"{keyword}, and any other insults are not allowed 🤐",
+                    message=f"{processKeyWord(keyword)}, and any other insults are not allowed 🤐",
                     title="We can't send this message",
                     actions=[
                         {"type": "cancel", "title": "OK"},
@@ -111,8 +111,11 @@ def messageValidation(sessionId, chatId, message, socketId):
                     title="There is always hope, even in the most difficult times 💙",
                     message="This is a safe and comfortable space for all. If you're upset or feeling down, please refer to the resources below!",
                     actions=[
-                        {"type": "destructive", "title": "I need some help",
-                            "link": "https://checkpointorg.com/global/"},
+                        {
+                            "type": "destructive",
+                            "title": "I need some help",
+                            "link": "https://checkpointorg.com/global/",
+                        },
                         {"type": "cancel", "title": "I'm OK"},
                     ],
                 ),
@@ -133,7 +136,7 @@ def messageValidation(sessionId, chatId, message, socketId):
                     message="We could not send that message.",
                     title="Filter warning",
                     actions=[
-                            {"type": "cancel", "title": "OK"},
+                        {"type": "cancel", "title": "OK"},
                     ],
                 ),
             )
