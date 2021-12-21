@@ -108,7 +108,7 @@ def notifyOnline(sessionId):
 
             message = {
                 "title": "Wake up",
-                "description": "Your chatling is back online! You can continue the chat by revisiting the website on the same device 💙",
+                "description": f"Your chatling is back online! You can continue the chat by [revisiting the website](https://https://chatterbox.yyjlincoln.app/chat/{chat.chatId}) on the same device 💙",
             }
 
             discordId = session.discordId
