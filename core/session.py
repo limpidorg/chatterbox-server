@@ -21,6 +21,11 @@ def getSession(sessionId):
     except:
         return None
 
+def getDiscordId(sessionId):
+    session = getSession(sessionId)
+    if session:
+        return session.discordId
+
 
 def deleteSession(sessionId):
     try:

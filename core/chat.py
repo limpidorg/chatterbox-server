@@ -2,7 +2,7 @@ from database import Session, Chat, Conversation
 import secrets
 import core.notifications
 import core.session
-from integrations.discordbot import getDiscordId, sendMessage
+from integrations.discordbot import getDiscordInternalId, sendMessage
 from utils import returnMessage
 import time
 
@@ -54,7 +54,7 @@ def initiateChat(chatId):
             session = core.session.getSession(sessionId)
             if session:
                 discordId = session.discordId
-                discord_internal_id = getDiscordId(discordId)
+                discord_internal_id = getDiscordInternalId(discordId)
 
                 session.chatId = chatId
                 session.save()
@@ -83,7 +83,6 @@ def addConversation(sessionId, chatId, message):
 
 
 def notifyOnline(sessionId):
-    session = core.session.getSession(sessionId)
     chat = getChatBySessionId(sessionId)
     if chat:
         for _sessionId in chat.sessionIds:
@@ -106,15 +105,16 @@ def notifyOnline(sessionId):
                 ),
             )
 
-            message = {
-                "title": "Wake up",
-                "description": f"Your chatling is back online! You can continue the chat by [revisiting the website](https://https://chatterbox.yyjlincoln.app/chat/{chat.chatId}) on the same device 💙",
-            }
-
-            discordId = session.discordId
-            discord_internal_id = getDiscordId(discordId)
-            if discord_internal_id:
-                sendMessage(discord_internal_id, message)
+            # Sends to Discord as well
+            discordId = core.session.getDiscordId(_sessionId)
+            if discordId:
+                message = {
+                    "title": "Wake up",
+                    "description": f"Your chatling is back online! You can continue the chat by [revisiting the website](https://https://chatterbox.yyjlincoln.app/chat/{chat.chatId}) on the same device 💙",
+                }
+                discord_internal_id = getDiscordInternalId(discordId)
+                if discord_internal_id:
+                    sendMessage(discord_internal_id, message)
 
 
 def notifyOffline(sessionId):

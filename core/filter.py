@@ -1,6 +1,6 @@
 import core.notifications
 import core.session
-from integrations.discordbot import getDiscordId, sendMessage
+from integrations.discordbot import getDiscordInternalId, sendMessage
 from utils import returnMessage
 
 MESSAGE_TYPES = {
@@ -82,7 +82,7 @@ def messageValidation(sessionId, chatId, message, socketId):
             # Also push the msg to discord
             if session:
                 discordId = session.discordId
-                discord_internal_id = getDiscordId(discordId)
+                discord_internal_id = getDiscordInternalId(discordId)
                 if discord_internal_id:
                     sendMessage(discord_internal_id, message)
             return False
@@ -123,7 +123,7 @@ def messageValidation(sessionId, chatId, message, socketId):
             # Also push the msg to discord
             if session:
                 discordId = session.discordId
-                discord_internal_id = getDiscordId(discordId)
+                discord_internal_id = getDiscordInternalId(discordId)
                 if discord_internal_id:
                     sendMessage(discord_internal_id, message)
             return True
