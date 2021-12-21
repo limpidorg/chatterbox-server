@@ -108,9 +108,18 @@ def notifyOnline(sessionId):
             # Sends to Discord as well
             discordId = core.session.getDiscordId(_sessionId)
             if discordId:
+                chat = core.chat.getChatBySessionId(sessionId)
+
+            for sessionId in chat.sessionIds:
+                if sessionId == _sessionId:
+                    continue
+
+                sessionOtherUser = core.session.getSession(sessionId)
+                otherUsername = sessionOtherUser.name
+
                 message = {
                     "title": "Wake up",
-                    "description": f"Your chatling is back online! You can continue the chat by [revisiting the website](https://https://chatterbox.yyjlincoln.app/chat/{chat.chatId}) on the same device 💙",
+                    "description": f"**{otherUsername}** is back online! You can continue the chat by [revisiting the website](https://chatterbox.yyjlincoln.app/chat/{chat.chatId}) on the same device 💙",
                 }
                 discord_internal_id = getDiscordInternalId(discordId)
                 if discord_internal_id:
