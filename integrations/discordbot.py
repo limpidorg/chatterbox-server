@@ -44,7 +44,7 @@ def hasJoinedDiscord(username):
     return promise.has_joined_discord
 
 
-def getDiscordId(username):
+def getDiscordInternalId(username):
     promise = Promise()
     loop.call_soon_threadsafe(asyncio.ensure_future, bot.get_discord_user(username, promise))
     promise.wait()
