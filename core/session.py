@@ -10,8 +10,9 @@ def newSession(socketId, discordId=None, name=None):
     try:
         session.save()
         return sessionId
-    except:
-        return None
+    except Exception as e:
+        raise e
+        # return None
 
 
 def getSession(sessionId):
